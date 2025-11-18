@@ -1,33 +1,36 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Menu</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Daftar Menu</h2>
 
-@section('content')
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
 
-<h3 class="text-center mb-4">🍽️ Daftar Menu</h3>
+    <div class="row">
+        @foreach($menus as $menu)
+        <div class="col-md-4 mb-3">
+            <div class="card p-3">
+                <h5>{{ $menu->nama_menu }}</h5>
+                <p class="text-danger fw-bold">Rp {{ number_format($menu->harga,0,',','.') }}</p>
+                <p>Stok: {{ $menu->stok }}</p>
 
-<div class="row">
-  @foreach($menus as $menu)
-  <div class="col-md-4 mb-4">
-    <div class="card shadow-sm h-100">
-      <img src="{{ asset('images/'.$menu->gambar) }}" 
-           class="card-img-top" style="height:200px;object-fit:cover;">
+                <!-- Form pilih menu dan jumlah -->
+                <form action="{{ route('checkout.form') }}" method="GET">
+                    <input type="hidden" name="menu_id" value="{{ $menu->id }}">
+                    <input type="number" name="jumlah" class="form-control mb-2" value="1" min="1" max="{{ $menu->stok }}">
+                    <button type="submit" class="btn btn-primary w-100">Pesan</button>
+                </form>
 
-      <div class="card-body">
-        <h5>{{ $menu->nama }}</h5>
-        <p class="text-danger fw-bold">
-          Rp {{ number_format($menu->harga, 0, ',', '.') }}
-        </p>
-        <p>Stok: {{ $menu->stok }}</p>
-
-        <form action="{{ route('checkout') }}" method="POST">
-          @csrf
-          <input type="hidden" name="menu_id" value="{{ $menu->id }}">
-          <input type="number" name="jumlah" class="form-control mb-2" value="1" min="1" max="{{ $menu->stok }}">
-          <button class="btn btn-primary w-100">Pesan</button>
-        </form>
-      </div>
+            </div>
+        </div>
+        @endforeach
     </div>
-  </div>
-  @endforeach
 </div>
-
-@endsection
+</body>
+</html>

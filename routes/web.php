@@ -3,12 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\AdminController;
 
+// Halaman utama menampilkan menu
 Route::get('/', [MenuController::class, 'index'])->name('menu.index');
 
-Route::post('/checkout', [OrderController::class, 'checkout'])->name('checkout');
-Route::post('/process', [OrderController::class, 'process'])->name('process');
-Route::get('/success', [OrderController::class, 'success'])->name('success');
+// Halaman checkout GET (isi nama pelanggan & tipe pesanan)
+Route::get('/checkout', [OrderController::class, 'showCheckoutForm'])->name('checkout.form');
 
-Route::get('/admin/orders', [AdminController::class, 'index'])->name('admin.orders');
+// Route POST untuk proses checkout
+Route::post('/checkout', [OrderController::class, 'checkout'])->name('checkout');
