@@ -8,7 +8,6 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Hanya jalankan seeder menu
         $this->call([
             MenuSeeder::class,
         ]);

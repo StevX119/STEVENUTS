@@ -3,34 +3,28 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\Menu;
 
 class MenuSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('menus')->insert([
-            [
-                'nama' => 'Classic Tenderloin Steak',
-                'harga' => 89000,
-                'stok' => 10,
-                'gambar' => 'steak.jpg',
-                'kategori' => 'Main Course'
-            ],
-            [
-                'nama' => 'Pasta Carbonara',
-                'harga' => 47000,
-                'stok' => 15,
-                'gambar' => 'carbonara.jpg',
-                'kategori' => 'Pasta'
-            ],
-            [
-                'nama' => 'Chicken Curry Rice',
-                'harga' => 56000,
-                'stok' => 20,
-                'gambar' => 'curry.jpg',
-                'kategori' => 'Rice Bowl'
-            ],
+        Menu::create([
+            'nama_menu' => 'Wagyu Steak',
+            'harga' => 500000,
+            'stok' => 10
+        ]);
+
+        Menu::create([
+            'nama_menu' => 'Lobster Thermidor',
+            'harga' => 400000,
+            'stok' => 8
+        ]);
+
+        Menu::create([
+            'nama_menu' => 'Caesar Salad',
+            'harga' => 90000,
+            'stok' => 15
         ]);
     }
 }
