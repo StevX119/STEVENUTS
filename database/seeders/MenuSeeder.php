@@ -1,18 +1,36 @@
-use App\Models\Menu;
+<?php
+
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class MenuSeeder extends Seeder
 {
     public function run(): void
     {
-        $menus = [
-            ['nama' => 'Classic Tenderloin Steak', 'harga' => 89000, 'stok' => 10, 'gambar' => 'steak.jpg', 'kategori' => 'Main Course'],
-            ['nama' => 'Grill Chicken Steak', 'harga' => 56000, 'stok' => 9, 'gambar' => 'chicken.jpg', 'kategori' => 'Main Course'],
-            ['nama' => 'Es Teh Manis', 'harga' => 5000, 'stok' => 15, 'gambar' => 'tea.jpg', 'kategori' => 'Beverage'],
-            ['nama' => 'Pasta Carbonara', 'harga' => 47000, 'stok' => 8, 'gambar' => 'pasta.jpg', 'kategori' => 'Pasta'],
-        ];
-        foreach ($menus as $menu) {
-            Menu::create($menu);
-        }
+        DB::table('menus')->insert([
+            [
+                'nama' => 'Classic Tenderloin Steak',
+                'harga' => 89000,
+                'stok' => 10,
+                'gambar' => 'steak.jpg',
+                'kategori' => 'Main Course'
+            ],
+            [
+                'nama' => 'Pasta Carbonara',
+                'harga' => 47000,
+                'stok' => 15,
+                'gambar' => 'carbonara.jpg',
+                'kategori' => 'Pasta'
+            ],
+            [
+                'nama' => 'Chicken Curry Rice',
+                'harga' => 56000,
+                'stok' => 20,
+                'gambar' => 'curry.jpg',
+                'kategori' => 'Rice Bowl'
+            ],
+        ]);
     }
 }
