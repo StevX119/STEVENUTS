@@ -1,14 +1,17 @@
+<?php
+
 namespace App\Http\Controllers;
-use App\Models\Order;
-use App\Models\OrderItem;
-use App\Models\Menu;
+
 use Illuminate\Http\Request;
+use App\Models\Order;
+use App\Models\Menu;
+use App\Models\OrderItem;
 
 class OrderController extends Controller
 {
     public function checkout(Request $request)
     {
-        $menu = Menu::findOrFail($request->menu_id);
+        $menu = Menu::find($request->menu_id);
         $jumlah = $request->jumlah;
         $subtotal = $menu->harga * $jumlah;
 
@@ -33,8 +36,6 @@ class OrderController extends Controller
             'jumlah' => $jumlah,
             'subtotal' => $subtotal,
         ]);
-
-        $menu->decrement('stok', $jumlah);
 
         return redirect()->route('success');
     }
