@@ -7,12 +7,18 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('menus', function (Blueprint $table) {
             $table->id();
+<<<<<<< HEAD
             $table->string('nama_pelanggan');
             $table->unsignedBigInteger('menu_id');
             $table->integer('jumlah');
             $table->integer('total');
+=======
+            $table->string('nama_menu');
+            $table->integer('harga');
+            $table->integer('stok');
+>>>>>>> e8e90ba809aa80a1614ea471ce2c637e99d7d51c
             $table->timestamps();
 
         });
@@ -20,6 +26,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('menus');
     }
 };
