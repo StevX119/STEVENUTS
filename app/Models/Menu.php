@@ -1,13 +1,24 @@
+
 <?php
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-namespace App\Models;
-
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
-class Menu extends Model
+return new class extends Migration
 {
-    use HasFactory;
+    public function up(): void
+    {
+        Schema::create('menus', function (Blueprint $table) {
+            $table->id();
+            $table->string('nama_menu');
+            $table->integer('harga');
+            $table->integer('stok');
+            $table->timestamps();
+        });
+    }
 
-    protected $fillable = ['nama_menu', 'harga', 'stok'];
-}
+    public function down(): void
+    {
+        Schema::dropIfExists('menus');
+    }
+};

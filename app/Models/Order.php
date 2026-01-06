@@ -1,18 +1,22 @@
-<?php
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-namespace App\Models;
-
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
-class Order extends Model
+return new class extends Migration
 {
-    use HasFactory;
-
-    protected $fillable = ['nama_pelanggan', 'tipe_pesanan', 'total'];
-
-    public function items()
+    public function up(): void
     {
-        return $this->hasMany(OrderItem::class);
+        Schema::create('orders', function (Blueprint $table) {
+            $table->id();
+            $table->string('nama_pelanggan');
+            $table->string('tipe_pesanan');
+            $table->integer('total'); // wajib ada supaya insert ga error
+            $table->timestamps();
+        });
     }
-}
+
+    public function down(): void
+    {
+        Schema::dropIfExists('orders');
+    }
+};
