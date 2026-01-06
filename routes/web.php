@@ -1,6 +1,4 @@
 <?php
-
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrderController;
 use App\Models\Menu;
 
@@ -10,3 +8,5 @@ Route::get('/', function () {
 });
 
 Route::post('/checkout', [OrderController::class, 'checkout'])->name('checkout');
+
+Route::get('/admin/orders', [OrderController::class, 'index']);

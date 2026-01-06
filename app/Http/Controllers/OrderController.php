@@ -9,47 +9,48 @@ use App\Models\OrderItem;
 
 class OrderController extends Controller
 {
+    // halaman admin
+    public function index()
+    {
+        $orders = Order::with('items.menu')->latest()->get();
+        return view('admin.orders', compact('orders'));
+    }
+
+    // proses checkout
     public function checkout(Request $request)
     {
-        // 1. Validasi input
-        $validated = $request->validate([
-            'nama_pelanggan' => 'required|string|max:255',
-            'tipe_pesanan'   => 'required|string|max:50',
+        $request->validate([
+            'nama_pelanggan' => 'required',
+            'tipe_pesanan'   => 'required',
             'menu_id'        => 'required|exists:menus,id',
-            'jumlah'         => 'required|integer|min:1'
+            'jumlah'         => 'required|integer|min:1',
         ]);
 
-        // 2. Ambil data menu
-        $menu = Menu::findOrFail($validated['menu_id']);
+        $menu = Menu::findOrFail($request->menu_id);
 
-        // 3. Cek stok
-        if ($menu->stok < $validated['jumlah']) {
+        if ($menu->stok < $request->jumlah) {
             return back()->with('error', 'Stok tidak cukup!');
         }
 
-        // 4. Hitung total
-        $total = $menu->harga * $validated['jumlah'];
+        $total = $menu->harga * $request->jumlah;
 
-        // 5. Simpan ke tabel orders
         $order = Order::create([
-            'nama_pelanggan' => $validated['nama_pelanggan'],
-            'tipe_pesanan'   => $validated['tipe_pesanan'],
+            'nama_pelanggan' => $request->nama_pelanggan,
+            'tipe_pesanan'   => $request->tipe_pesanan,
             'total'          => $total
         ]);
 
-        // 6. Simpan ke tabel order_items
         OrderItem::create([
             'order_id' => $order->id,
             'menu_id'  => $menu->id,
-            'jumlah'   => $validated['jumlah'],
+            'jumlah'   => $request->jumlah,
             'subtotal' => $total
         ]);
 
-        // 7. Kurangi stok
-        $menu->stok -= $validated['jumlah'];
+        // kurangi stok
+        $menu->stok -= $request->jumlah;
         $menu->save();
 
-        // 8. Balik ke halaman awal
-        return redirect('/')->with('success', 'Pesanan berhasil dibuat!');
+        return back()->with('success', 'Order berhasil!');
     }
 }
