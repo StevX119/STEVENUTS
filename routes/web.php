@@ -1,12 +1,12 @@
 <?php
+
 use App\Http\Controllers\OrderController;
-use App\Models\Menu;
 
-Route::get('/', function () {
-    $menus = Menu::all();
-    return view('menu.index', compact('menus'));
-});
+// halaman admin
+Route::get('/admin/orders', [OrderController::class, 'index'])->name('admin.orders');
 
+// proses checkout
 Route::post('/checkout', [OrderController::class, 'checkout'])->name('checkout');
 
-Route::get('/admin/orders', [OrderController::class, 'index']);
+// halaman sukses
+Route::get('/success', [OrderController::class, 'success'])->name('order.success');
