@@ -1,31 +1,36 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard Penjual</title>
+</head>
+<body>
 
-@section('content')
+<h1>Dashboard Penjual</h1>
 
-<h3>📦 Daftar Pesanan</h3>
+<table border="1" cellpadding="10">
+<tr>
+    <th>Nama</th>
+    <th>Tipe</th>
+    <th>Menu</th>
+    <th>Jumlah</th>
+    <th>Total</th>
+    <th>Waktu</th>
+</tr>
 
-<table class="table table-bordered">
-  <thead>
+@foreach($orders as $order)
+    @foreach($order->items as $item)
     <tr>
-      <th>ID</th>
-      <th>Nama</th>
-      <th>Tipe</th>
-      <th>Total</th>
-      <th>Tanggal</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    @foreach($orders as $order)
-    <tr>
-      <td>{{ $order->id }}</td>
-      <td>{{ $order->nama_pelanggan }}</td>
-      <td>{{ $order->tipe_pesanan }}</td>
-      <td>Rp {{ number_format($order->total, 0, ',', '.') }}</td>
-      <td>{{ $order->created_at }}</td>
+        <td>{{ $order->nama_pelanggan }}</td>
+        <td>{{ $order->tipe_pesanan }}</td>
+        <td>{{ $item->menu->nama_menu }}</td>
+        <td>{{ $item->jumlah }}</td>
+        <td>Rp {{ number_format($order->total) }}</td>
+        <td>{{ $order->created_at }}</td>
     </tr>
     @endforeach
-  </tbody>
+@endforeach
+
 </table>
 
-@endsection
+</body>
+</html>
